@@ -1,0 +1,30 @@
+select cont_id, address_id, last_update_dt from (
+select c.cont_id, a.address_id, l.last_update_dt,
+row_number() over(partition by c.cont_id order by l.last_update_dt) rn
+from contequiv c,
+locationgroup l,
+addressgroup ag,
+address a, 
+mlog$_contequiv mc,
+mlog$_locationgroup ml,
+mlog$_addressgroup mag,
+mlog$_address ma
+where c.cont_id = l.cont_id
+and l.location_group_id = ag.location_group_id
+and ag.address_id = a.address_id
+and mc.cont_equiv_id = c.cont_equiv_id
+and ml.location_group_id = l.location_group_id
+and mag.address_id = ag.address_id
+and ma.address_id = a.address_id
+and c.end_dt is null
+and l.end_dt is null 
+and l.loc_group_tp_code = 'A'
+and mc.OLD_NEW$$ = 'N'
+and ml.OLD_NEW$$ = 'N'
+and mag.OLD_NEW$$ = 'N'
+and ma.OLD_NEW$$ = 'N'
+and c.cont_id = 116071689166489801
+)where rn = 1;
+
+
+select * from mlog$_locationgroup where cont_id = 116071689166489801;
