@@ -26,6 +26,8 @@ UNION ALL
 ------------------------------
 PARTITION -->ROW NUMBER ----> NO PRIMARY COLUMN SHOULD BE SELECTED
 
+WE HAVE MULTIPLE ENTRY FOR THE ADDRESS IS IN LOCATION GROUP
+
 SELECT
             cont_id,
             ROW_NUMBER()
@@ -37,7 +39,7 @@ SELECT
             mlog$_locationgroup
 
 -------------------------------------------------
-SELECTING LATEDT
+SELECTING LATEST
 
 SELECT
     *
