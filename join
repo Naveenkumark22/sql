@@ -1,0 +1,24 @@
+Inner join
+
+    SELECT
+                   count(locationgroup.cont_id) 
+                   
+                FROM
+                    locationgroup, contactmethodgroup ,
+                     contactmethod 
+                WHERE
+                         locationgroup.location_group_id = contactmethodgroup.location_group_id
+                    AND  contactmethodgroup.CONTACT_METHOD_ID=contactmethod.CONTACT_METHOD_ID
+                    AND  locationgroup.end_dt is null
+                    and contactmethod.ref_num='15122345555';
+
+
+UNION ALL
+
+ select max(a) from(
+  select    max(last_update_dt ) a from mlog$_contequiv
+  union all
+  select  max(last_update_dt) a from mlog$_address
+  union all
+  select  max(last_update_dt) a from mlog$_addressgroup
+      ) 
