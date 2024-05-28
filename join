@@ -11,7 +11,7 @@ Inner join
                     AND  contactmethodgroup.CONTACT_METHOD_ID=contactmethod.CONTACT_METHOD_ID
                     AND  locationgroup.end_dt is null
                     and contactmethod.ref_num='15122345555';
-
+--------------------
 
 UNION ALL
 
@@ -22,3 +22,36 @@ UNION ALL
   union all
   select  max(last_update_dt) a from mlog$_addressgroup
       ) 
+
+------------------------------
+PARTITION -->ROW NUMBER ----> NO PRIMARY COLUMN SHOULD BE SELECTED
+
+SELECT
+            cont_id,
+            ROW_NUMBER()
+            OVER(PARTITION BY cont_id
+                 ORDER BY
+                     last_update_dt DESC
+            ) rn
+        FROM
+            mlog$_locationgroup
+
+-------------------------------------------------
+SELECTING LATEDT
+
+SELECT
+    *
+FROM
+    (
+        SELECT
+            cont_id,
+            ROW_NUMBER()
+            OVER(PARTITION BY cont_id
+                 ORDER BY
+                     last_update_dt DESC
+            ) rn
+        FROM
+            mlog$_locationgroup
+    )
+WHERE
+    rn = 1;
